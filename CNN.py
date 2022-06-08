@@ -1,3 +1,4 @@
+#Google driveをマウント
 from google.colab import drive
 drive.mount('/content/drive')
 
@@ -8,7 +9,7 @@ import random, math
 
 #画像が保存されているルートディレクトリのパス
 root_dir = "/content/drive/MyDrive/sample_data"
-# 商品名
+# 商品名（ジャケットに変更）
 categories = ["Pale Blue","M87","Stay sheep","馬と鹿","Bootleg","かいじゅうずかん"]
 
 # 画像データ用配列
@@ -69,13 +70,14 @@ model.add(layers.Conv2D(128,(3,3),activation="relu"))
 model.add(layers.MaxPooling2D((2,2)))
 model.add(layers.Flatten())
 model.add(layers.Dense(512,activation="relu"))
-model.add(layers.Dense(6,activation="sigmoid")) #分類先の種類分設定
+model.add(layers.Dense(6,activation="sigmoid")) #分類先の種類分設定（出力数を6に）
 
 #モデル構成の確認
 model.summary()
 
 from tensorflow.keras.optimizers import RMSprop
 
+#categorical_corssentropyに
 model.compile(loss="categorical_crossentropy",optimizer=RMSprop(learning_rate=1e-4),metrics=["acc"])
 
 from keras.utils import np_utils
@@ -83,8 +85,10 @@ import numpy as np
 
 categories = ["Pale Blue","M87","Stay sheep","馬と鹿",
               "Bootleg","かいじゅうずかん"]
+
 nb_classes = len(categories)
 
+#許可を変更
 X_train, X_test, y_train, y_test = np.load("/content/drive/MyDrive/tea_data.npy", allow_pickle=True)
 
 #データの正規化
